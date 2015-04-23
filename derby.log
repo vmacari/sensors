@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Thu Apr 23 01:05:17 EEST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-014c-e329-e976-000004d70c08 
+on database directory /Users/vmacari/NetBeansProjects/JavaTestRFGateway/node with class loader sun.misc.Launcher$AppClassLoader@2c7b84de 
+Loaded from file:/Applications/NetBeans/glassfish-4.1/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_31-b13
+user.dir=/Users/vmacari/NetBeansProjects/JavaTestRFGateway
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.10.2
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
