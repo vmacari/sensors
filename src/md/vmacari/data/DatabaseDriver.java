@@ -7,7 +7,7 @@ package md.vmacari.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import javatestrfgateway.GwLogger;
+import md.vmacari.main.GwLogger;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;

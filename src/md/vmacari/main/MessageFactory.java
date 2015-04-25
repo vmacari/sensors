@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javatestrfgateway;
+package md.vmacari.main;
 
 import md.vmacari.messages.MessageGeneric;
 import md.vmacari.messages.MessageGeneric.MessageTypes;

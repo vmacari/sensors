@@ -5,8 +5,8 @@
  */
 package md.vmacari.comm;
 
-import javatestrfgateway.GwLogger;
-import javatestrfgateway.MessageReader;
+import md.vmacari.main.GwLogger;
+import md.vmacari.main.MessageReader;
 import md.vmacari.messages.MessageGeneric;
 import md.vmacari.messages.MessagePresentation;
 import md.vmacari.messages.MessagePresentationSubtypes;

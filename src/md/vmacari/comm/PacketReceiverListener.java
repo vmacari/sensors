@@ -5,7 +5,7 @@
  */
 package md.vmacari.comm;
 
-import javatestrfgateway.MessageReader;
+import md.vmacari.main.MessageReader;
 import md.vmacari.messages.MessageGeneric;
 
 /**
