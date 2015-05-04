@@ -7,7 +7,7 @@ package md.vmacari.comm;
 
 import md.vmacari.main.GwLogger;
 import md.vmacari.main.MessageReader;
-import md.vmacari.data.DatabaseDriver;
+import services.DatabaseService;
 import md.vmacari.messages.MessageGeneric;
 import md.vmacari.messages.MessagePresentation;
 import md.vmacari.messages.MessageStream;
@@ -37,7 +37,7 @@ public class MessageStreamHandler implements PacketReceiverListener {
                 short fwType = string2word(payload.substring(0, 1));
                 short fwVersion = string2word(payload.substring(2, 3));
             
-                DatabaseDriver.sendFirmwareConfigResponse( message.getNodeId(), fwType, fwVersion);
+                DatabaseService.sendFirmwareConfigResponse( message.getNodeId(), fwType, fwVersion);
             }
         }
         else if (message.getSubType() == MessageStreamSubtypes.ST_FIRMWARE_CONFIG_RESPONSE) {
@@ -47,7 +47,7 @@ public class MessageStreamHandler implements PacketReceiverListener {
                 short fwBlock = string2word(payload.substring(4, 5));
                 
             
-                DatabaseDriver.sendFirmwareResponse(message.getNodeId(), fwType, fwVersion, fwBlock);
+                DatabaseService.sendFirmwareResponse(message.getNodeId(), fwType, fwVersion, fwBlock);
             }
         }
         else if (message.getSubType() == MessageStreamSubtypes.ST_FIRMWARE_RESPONSE) {

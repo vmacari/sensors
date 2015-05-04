@@ -7,10 +7,8 @@ package md.vmacari.comm;
 
 import md.vmacari.main.GwLogger;
 import md.vmacari.main.MessageReader;
-import md.vmacari.data.DatabaseDriver;
+import services.DatabaseService;
 import md.vmacari.messages.MessageGeneric;
-import md.vmacari.messages.MessagePresentation;
-import md.vmacari.messages.MessagePresentationSubtypes;
 import md.vmacari.messages.MessageSet;
 
 /**
@@ -22,15 +20,15 @@ public class MessageSetHandler implements PacketReceiverListener {
     @Override
     public void onDataPacketReceived(MessageReader reader, MessageGeneric dataPacket) {
         
-        if (dataPacket.getMessageType() != MessageGeneric.MessageTypes.Presentation || 
-            ! (dataPacket instanceof MessagePresentation)) {
+        if (dataPacket.getMessageType() != MessageGeneric.MessageTypes.Set || 
+            ! (dataPacket instanceof MessageSet)) {
             return; // not a presentation message
         }
         
-        GwLogger.i("Handle presentation message ");
+        GwLogger.i("Handle set message ");
         MessageSet message = (MessageSet) dataPacket;
 
-        DatabaseDriver.saveValue(
+        DatabaseService.saveValue(
                 message.getNodeId(), 
                 message.getChildSensorId(),
                 message.getSubType(), 

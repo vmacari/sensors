@@ -156,7 +156,7 @@ public class Node implements Serializable {
 
     @Override
     public String toString() {
-        return "md.vmacari.data.Node[ id=" + id + " ]";
+        return "md.vmacari.comm.Node[ id=" + id + " ]";
     }
     
 }

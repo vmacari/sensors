@@ -5,9 +5,10 @@
  */
 package md.vmacari.comm;
 
+import java.util.Date;
 import md.vmacari.main.GwLogger;
 import md.vmacari.main.MessageReader;
-import md.vmacari.data.DatabaseDriver;
+import services.DatabaseService;
 import md.vmacari.messages.MessageGeneric;
 import md.vmacari.messages.MessageInternal;
 import md.vmacari.messages.MessageInternalSubtypes;
@@ -35,14 +36,14 @@ public class MessageInternalHadler implements PacketReceiverListener{
             
             
             GwLogger.i("Node is requesting and ID %s : %s", message.getNodeId(), message.getPayload());
-            short nextAvailableId = DatabaseDriver.getNextAvailabelNodId();
+            short nextAvailableId = DatabaseService.getNextAvailabelNodId();
             
             if (nextAvailableId == -1) {
                 GwLogger.e("Cannot get a new node ID, db is full ");
                 return;
             }
             
-            DatabaseDriver.addOrUpdateNewNodeId(nextAvailableId, "-not set-");
+            DatabaseService.addOrUpdateNewNodeId(nextAvailableId, "-not set-", "-version-");
             // https://github.com/mysensors/Arduino/blob/master/NodeJsController/NodeJsController.js
             
             reader.writeString(MessageInternal.createGetIdResponse(message, 
@@ -51,11 +52,12 @@ public class MessageInternalHadler implements PacketReceiverListener{
         
         else if (message.getSubType() == MessageInternalSubtypes.I_LOG_MESSAGE) {
            GwLogger.i("Log message received from %s : %s", message.getNodeId(), message.getPayload());
+           DatabaseService.addLogMessage(message.getPayload());
         }
         else if (message.getSubType() == MessageInternalSubtypes.I_BATTERY_LEVEL) {
            GwLogger.i("I_BATTERY_LEVEL: Use this to report the battery level "
                    + "(in percent 0-100) %s : %s", message.getNodeId(), message.getPayload());
-           DatabaseDriver.saveBatteryLevel(message.getNodeId(), message.getChildSensorId(), 
+           DatabaseService.saveBatteryLevel(message.getNodeId(), message.getChildSensorId(), 
                    message.getPayload());
         }
         else if (message.getSubType() == MessageInternalSubtypes.I_TIME) {
@@ -87,9 +89,8 @@ public class MessageInternalHadler implements PacketReceiverListener{
                    + "or (I)mperal back to sensor. %s : %s", 
                    message.getNodeId(), message.getPayload());
            
-           DatabaseDriver.sendConfig(message.getNodeId(), message.getChildSensorId(), 
-                   message.getPayload());
-
+            reader.writeString(MessageInternal.createGetConfig(
+                   message).toMessageString());
         }
         else if (message.getSubType() == MessageInternalSubtypes.I_FIND_PARENT) {
            GwLogger.i("I_FIND_PARENT: When a sensor starts up, it broadcast a "
@@ -112,7 +113,7 @@ public class MessageInternalHadler implements PacketReceiverListener{
                    + "identify sensor in the Controller GUI. %s : %s", 
                    message.getNodeId(), message.getPayload());
            
-            DatabaseDriver.saveSketchName(message.getNodeId(), message.getChildSensorId(), 
+            DatabaseService.saveSketchName(message.getNodeId(), message.getChildSensorId(), 
                    message.getPayload());
 
         }
@@ -121,7 +122,7 @@ public class MessageInternalHadler implements PacketReceiverListener{
                    + "reported to keep track of the version of sensor in the "
                    + "Controller GUI %s : %s", message.getNodeId(), message.getPayload());
  
-            DatabaseDriver.saveSketchVersion(message.getNodeId(), message.getChildSensorId(), 
+            DatabaseService.saveSketchVersion(message.getNodeId(), message.getChildSensorId(), 
                    message.getPayload());
 
         }

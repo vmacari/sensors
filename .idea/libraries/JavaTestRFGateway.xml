@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="JavaTestRFGateway">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/JavaTestRFGateway.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

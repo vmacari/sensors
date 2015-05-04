@@ -7,7 +7,7 @@ package md.vmacari.comm;
 
 import md.vmacari.main.GwLogger;
 import md.vmacari.main.MessageReader;
-import md.vmacari.data.DatabaseDriver;
+import services.DatabaseService;
 import md.vmacari.messages.MessageGeneric;
 import md.vmacari.messages.MessagePresentation;
 import md.vmacari.messages.MessagePresentationSubtypes;
@@ -29,8 +29,12 @@ public class MessagePresentationHandler implements PacketReceiverListener {
         GwLogger.i("Handle presentation message ");
         MessagePresentation message = (MessagePresentation) dataPacket;
         
-        DatabaseDriver.saveProtocol(message.getNodeId(),  message.getPayload());
-        DatabaseDriver.saveNodeSensor(message.getNodeId(), 
-                message.getChildSensorId(), message.getMessageType());
+        DatabaseService.saveProtocol(message.getNodeId(),  
+                message.getPayload());
+        
+        DatabaseService.saveNodeSensor(message.getNodeId(), 
+                message.getChildSensorId(), 
+                message.getMessageType(),
+                message.getSubType());
     }
 }

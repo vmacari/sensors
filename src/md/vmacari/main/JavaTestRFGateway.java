@@ -20,7 +20,10 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import md.vmacari.comm.MessageInternalHadler;
 import md.vmacari.comm.MessagePresentationHandler;
-import md.vmacari.data.DatabaseDriver;
+import md.vmacari.comm.MessageRequestHandler;
+import md.vmacari.comm.MessageSetHandler;
+import md.vmacari.comm.MessageStreamHandler;
+import services.DatabaseService;
 import md.vmacari.data.Node;
 
 
@@ -37,7 +40,7 @@ public class JavaTestRFGateway  {
     public static void main(String[] args) {
         
       //final String portName = "/dev/ttyUSB0";
-      final String portName = "/dev/tty.wchusbserial1410";
+      final String portName = "/dev/tty.wchusbserial1420";
       
       MessageReader reader = null;
       System.out.println("Application started!");
@@ -61,8 +64,14 @@ public class JavaTestRFGateway  {
             
              
             reader = new MessageReader(Arrays.asList(
-                                new  MessageInternalHadler(), 
-                                new MessagePresentationHandler()
+                    
+                                new MessageInternalHadler(), 
+                                new MessagePresentationHandler(),
+                                new MessageSetHandler(),
+                                new MessageStreamHandler(),
+                                new MessageRequestHandler()
+                                
+                                
                             ), 
                     selectedComPortId, 
                     115200);
@@ -88,10 +97,15 @@ public class JavaTestRFGateway  {
             
 
 
-//      int newNodeId = DatabaseDriver.getNextAvailabelNodId ();
+//      int newNodeId = DatabaseService.getNextAvailabelNodId ();
 //      System.out.println("New node ID " + String.valueOf(newNodeId));
-//      Node entity = DatabaseDriver.addOrUpdateNewNodeId(newNodeId, "Test node ");   
+//      Node entity = DatabaseService.addOrUpdateNewNodeId((short)newNodeId, "Test node ");   
 //      System.out.println("New node added ! " + String.valueOf(entity.getId()));
+//      
+//      DatabaseService.addLogMessage("id", 1,  2, "message 1", new Date());
+//      DatabaseService.addLogMessage("id", 1, 3, "message 2 ", new Date());
+      
+      
    }
 
 

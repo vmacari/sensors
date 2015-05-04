@@ -73,7 +73,7 @@ public class SensorPK implements Serializable {
 
     @Override
     public String toString() {
-        return "md.vmacari.data.SensorPK[ id=" + id + ", nodeId=" + nodeId + " ]";
+        return "md.vmacari.comm.SensorPK[ id=" + id + ", nodeId=" + nodeId + " ]";
     }
     
 }

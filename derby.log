@@ -1,13 +1,20 @@
+Mon May 04 22:05:19 EEST 2015 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Thu Apr 23 01:05:17 EEST 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-014c-e329-e976-000004d70c08 
-on database directory /Users/vmacari/NetBeansProjects/JavaTestRFGateway/node with class loader sun.misc.Launcher$AppClassLoader@2c7b84de 
+Mon May 04 22:05:20 EEST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-014d-2051-77ae-0000024a6db3 
+on database directory /Users/vmacari/NetBeansProjects/JavaTestRFGateway/node with class loader sun.misc.Launcher$AppClassLoader@5451c3a8 
 Loaded from file:/Applications/NetBeans/glassfish-4.1/javadb/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_31-b13
-user.dir=/Users/vmacari/NetBeansProjects/JavaTestRFGateway
+user.dir=/Applications/NetBeans/glassfish-4.1/javadb
 os.name=Mac OS X
 os.arch=x86_64
-os.version=10.10.2
-derby.system.home=null
+os.version=10.10.3
+derby.system.home=/Users/vmacari/NetBeansProjects/JavaTestRFGateway
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon May 04 23:13:02 EEST 2015: Shutting down Derby engine
+----------------------------------------------------------------
+Mon May 04 23:13:03 EEST 2015:
+Shutting down instance a816c00e-014d-2051-77ae-0000024a6db3 on database directory /Users/vmacari/NetBeansProjects/JavaTestRFGateway/node with class loader sun.misc.Launcher$AppClassLoader@5451c3a8 
+----------------------------------------------------------------

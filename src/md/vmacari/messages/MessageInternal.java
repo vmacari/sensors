@@ -38,6 +38,17 @@ public class MessageInternal extends MessageGeneric<MessageInternalSubtypes> {
                 String.valueOf(new Date().getTime()));
     }
 
+    public static MessageInternal createGetConfig(MessageInternal message) {
+        return new MessageInternal(
+            message.getNodeId(), 
+            message.getChildSensorId(), 
+            MessageTypes.Internal, 
+            false, 
+            MessageInternalSubtypes.I_CONFIG,
+            "M" // metric configuration
+        );
+    }
+
     /**
      * 
      * @param nodeId

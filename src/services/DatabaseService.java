@@ -3,14 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package md.vmacari.data;
+package services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import md.vmacari.main.GwLogger;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import md.vmacari.data.Data;
+import md.vmacari.data.Logs;
+import md.vmacari.data.Node;
 import md.vmacari.messages.MessageGeneric;
 import md.vmacari.messages.MessagePresentationSubtypes;
 import md.vmacari.messages.MessageSensorValues;
@@ -19,12 +24,26 @@ import md.vmacari.messages.MessageSensorValues;
  *
  * @author vmacari
  */
-public class DatabaseDriver {
+public class DatabaseService {
+
+    public static void addLogMessage(String message) {
+
+       Logger.getGlobal().info("Adding log entry ...");
+
+        getInstance().entityManager.getTransaction().begin();
+
+        Logs logMesageEntity = new Logs(0, message, new Date());
+        
+        getInstance().entityManager.persist(logMesageEntity);
+        getInstance().entityManager.getTransaction().commit();
+        
+        Logger.getGlobal().info("Added log entry " + String.valueOf(logMesageEntity.getId()));
+    }
 
     private  EntityManager entityManager;
-    private static DatabaseDriver _instance = null;
+    private static DatabaseService _instance = null;
     
-    private DatabaseDriver () {
+    private DatabaseService () {
         entityManager = Persistence.createEntityManagerFactory(
                 "JavaTestRFGatewayPU").createEntityManager();
     }
@@ -33,9 +52,9 @@ public class DatabaseDriver {
      * 
      * @return 
      */
-    private static DatabaseDriver getInstance () {
+    private static DatabaseService getInstance () {
         if (_instance == null) {
-            _instance = new DatabaseDriver();
+            _instance = new DatabaseService();
         }
         return _instance;
     }
@@ -76,14 +95,13 @@ public class DatabaseDriver {
         return -1;
     }
     
-    
     /**
      * 
      * @param nodeId
      * @param name
      * @return 
      */    
-    public static Node addOrUpdateNewNodeId (short nodeId, String name) {
+    public static Node addOrUpdateNewNodeId (short nodeId, String name, String version) {
     
         getInstance().entityManager.getTransaction().begin();
         
@@ -96,12 +114,15 @@ public class DatabaseDriver {
         if (resultList == null || resultList.size() == 0) {
             nodeEntity = new Node();
             nodeEntity.setId(nodeId);
-            nodeEntity.setName(name);
-            getInstance().entityManager.persist(nodeEntity);
         } else {
             nodeEntity = resultList.get(0);
         }
+ 
+        nodeEntity.setName(name);
+        nodeEntity.setVersion(version);
         
+        
+        getInstance().entityManager.persist(nodeEntity);
         getInstance().entityManager.getTransaction().commit();
         return nodeEntity;
     }
@@ -122,33 +143,50 @@ public class DatabaseDriver {
 
     public static void saveSketchName(int nodeId, int childSensorId, String payload) {
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        GwLogger.i("saving sketch name %s", payload);
+        GwLogger.i("saving sketch name : NodeId %d, sensor %d, payload  %s", nodeId, 
+                childSensorId,  payload);
     }
 
     public static void saveSketchVersion(int nodeId, int childSensorId, String payload) {
        //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        GwLogger.i("saving sketch version %s", payload);
+        GwLogger.i("saving sketch version : NodeId %d, sensor %d, payload  %s", nodeId, 
+                childSensorId,  payload);
     }
 
     public static void saveValue(int nodeId, int childSensorId, MessageSensorValues subType, String payload) {
         // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        GwLogger.i("Save valu for NodeId %d, sensorId %d, ValueType %d, Payload %s", 
+                nodeId, childSensorId, subType, payload);
+        
+        getInstance().entityManager.getTransaction().begin();
+
+        Data dataEntity = new Data();
+        
+        dataEntity.setNodeId((short)nodeId);
+        dataEntity.setSensorId((short)childSensorId);
+        dataEntity.setDataType(subType.toString());
+        dataEntity.setData(payload);
+        getInstance().entityManager.persist(dataEntity);
+        getInstance().entityManager.getTransaction().commit();
+        
     }
 
     public static void saveProtocol(int nodeId, String payload) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        GwLogger.i("saving protocol %s", payload);
+        GwLogger.i("saving protocol for node: NodeId %d, Protocol %s", nodeId, payload);
     }
 
-    public static void saveNodeSensor(int nodeId, int childSensorId, MessageGeneric.MessageTypes messageType) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        GwLogger.i("saving node sensor %d : %d - %s", nodeId, childSensorId, messageType);
+    public static void saveNodeSensor(int nodeId, int childSensorId, MessageGeneric.MessageTypes messageType, MessagePresentationSubtypes subType) {
+        GwLogger.i("saving node sensor [NodeId: %d,   sensorId : %d,  MessageType: %s, MessageSubtype %s]", 
+                nodeId, childSensorId, messageType, subType);
+        
     }
 
     public static void sendFirmwareConfigResponse(int nodeId, short fwType, short fwVersion) {
-      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        GwLogger.e("[sendFirmwareConfig] firmware operations not supported");
     }
 
     public static void sendFirmwareResponse(int nodeId, short fwType, short fwVersion, short fwBlock) {
-    //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        GwLogger.e("[sendFirmware] firmware operations not supported");
     }
 }

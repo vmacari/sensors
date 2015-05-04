@@ -6,13 +6,18 @@
 package md.vmacari.data;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,54 +32,58 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Data.findById", query = "SELECT d FROM Data d WHERE d.id = :id"),
     @NamedQuery(name = "Data.findByNodeId", query = "SELECT d FROM Data d WHERE d.nodeId = :nodeId"),
     @NamedQuery(name = "Data.findBySensorId", query = "SELECT d FROM Data d WHERE d.sensorId = :sensorId"),
-    @NamedQuery(name = "Data.findBySensorDataType", query = "SELECT d FROM Data d WHERE d.sensorDataType = :sensorDataType"),
-    @NamedQuery(name = "Data.findBySensorData", query = "SELECT d FROM Data d WHERE d.sensorData = :sensorData"),
-    @NamedQuery(name = "Data.findByDataType", query = "SELECT d FROM Data d WHERE d.dataType = :dataType")})
+    @NamedQuery(name = "Data.findByDataType", query = "SELECT d FROM Data d WHERE d.dataType = :dataType"),
+    @NamedQuery(name = "Data.findByData", query = "SELECT d FROM Data d WHERE d.data = :data"),
+    @NamedQuery(name = "Data.findByTime", query = "SELECT d FROM Data d WHERE d.time = :time")})
 public class Data implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "ID", nullable = false)
-    private Long id;
-    @Basic(optional = false)
-    @Column(name = "NODE_ID", nullable = false)
-    private short nodeId;
+    private Integer id;
+    @Column(name = "NODE_ID")
+    private Short nodeId;
     @Column(name = "SENSOR_ID")
     private Short sensorId;
     @Basic(optional = false)
-    @Column(name = "SENSOR_DATA_TYPE", nullable = false)
-    private short sensorDataType;
-    @Column(name = "SENSOR_DATA", length = 50)
-    private String sensorData;
-    @Column(name = "DATA_TYPE")
-    private Short dataType;
+    @Column(name = "DATA_TYPE", nullable = false, length = 50)
+    private String dataType;
+    @Basic(optional = false)
+    @Column(name = "DATA", nullable = false, length = 100)
+    private String data;
+    @Basic(optional = false)
+    @Column(name = "TIME", nullable = false)
+    @Temporal(TemporalType.TIME)
+    private Date time;
 
     public Data() {
     }
 
-    public Data(Long id) {
+    public Data(Integer id) {
         this.id = id;
     }
 
-    public Data(Long id, short nodeId, short sensorDataType) {
+    public Data(Integer id, String dataType, String data, Date time) {
         this.id = id;
-        this.nodeId = nodeId;
-        this.sensorDataType = sensorDataType;
+        this.dataType = dataType;
+        this.data = data;
+        this.time = time;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public short getNodeId() {
+    public Short getNodeId() {
         return nodeId;
     }
 
-    public void setNodeId(short nodeId) {
+    public void setNodeId(Short nodeId) {
         this.nodeId = nodeId;
     }
 
@@ -86,28 +95,28 @@ public class Data implements Serializable {
         this.sensorId = sensorId;
     }
 
-    public short getSensorDataType() {
-        return sensorDataType;
-    }
-
-    public void setSensorDataType(short sensorDataType) {
-        this.sensorDataType = sensorDataType;
-    }
-
-    public String getSensorData() {
-        return sensorData;
-    }
-
-    public void setSensorData(String sensorData) {
-        this.sensorData = sensorData;
-    }
-
-    public Short getDataType() {
+    public String getDataType() {
         return dataType;
     }
 
-    public void setDataType(Short dataType) {
+    public void setDataType(String dataType) {
         this.dataType = dataType;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     @Override
